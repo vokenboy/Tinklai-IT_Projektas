@@ -13,7 +13,7 @@ const LibrarianTable = () => {
         setLibrarians(librariansData);
       } catch (err) {
         console.error('Error fetching librarians:', err);
-        setError('Failed to load librarians');
+        setError('Nepavyko užkrauti bibliotekinikų sąrašo.');
       }
     };
 
@@ -28,7 +28,6 @@ const LibrarianTable = () => {
         <table className="librarian-table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Vardas</th>
               <th>Pavardė</th>
               <th>El. Paštas</th>
@@ -37,7 +36,6 @@ const LibrarianTable = () => {
           <tbody>
             {librarians.map((librarian) => (
               <tr key={librarian.id}>
-                <td>{librarian.id}</td>
                 <td>{librarian.vardas}</td>
                 <td>{librarian.pavarde}</td>
                 <td>{librarian.epastas}</td>
@@ -46,7 +44,7 @@ const LibrarianTable = () => {
           </tbody>
         </table>
       ) : (
-        <p>No librarians found.</p>
+        <p>Nerasta bibliotekinikų</p>
       )}
     </div>
   );

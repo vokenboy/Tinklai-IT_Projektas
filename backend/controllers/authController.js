@@ -13,10 +13,10 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(slaptazodis, 10);
     const query = 'INSERT INTO naudotojas (epastas, slaptazodis, vardas, pavarde, role_id) VALUES (?, ?, ?, ?, ?)';
     await pool.execute(query, [epastas, hashedPassword, vardas, pavarde, role_id]);
-    res.status(201).json({ message: 'User registered successfully' });
+    res.status(201).json({ message: 'Naudotojas sėkmingai priregistruotas' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error registering user' });
+    res.status(500).json({ error: 'Klaida registruojant naudotoją' });
   }
 };
 
@@ -24,14 +24,14 @@ exports.login = async (req, res) => {
   const { epastas, slaptazodis } = req.body;
 
   if (!epastas || !slaptazodis) {
-    return res.status(400).json({ error: 'Email and password are required' });
+    return res.status(400).json({ error: 'Neivestas El. Paštas ir slaptažodis' });
   }
 
   const query = 'SELECT * FROM naudotojas WHERE epastas = ?';
   const [rows] = await pool.execute(query, [epastas]);
 
   if (rows.length === 0) {
-    return res.status(400).json({ error: 'Invalid credentials' });
+    return res.status(400).json({ error: 'Neteisingi duomenys' });
   }
 
   const user = rows[0];
@@ -40,12 +40,12 @@ exports.login = async (req, res) => {
   if (match) {
     const token = jwt.sign({ id: user.id }, 'your_secret_key', { expiresIn: '1h' });
     res.json({
-      message: 'Login successful!',
+      message: 'Sėkmingai prisijungta',
       token,
       role_id: user.role_id,
       user_id: user.id
     });
   } else {
-    res.status(403).json({ error: 'Invalid credentials' });
+    res.status(403).json({ error: 'Neteisingi duomenys' });
   }
 };

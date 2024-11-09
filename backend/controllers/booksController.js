@@ -11,8 +11,8 @@ exports.getBooks = async (req, res) => {
     const [results] = await pool.query(query);
     res.json(results);
   } catch (error) {
-    console.error('Error fetching books:', error);
-    res.status(500).json({ error: 'Database error' });
+    console.error('Nepavyko gauti knygų:', error);
+    res.status(500).json({ error: 'Duomenų bazės klaida' });
   }
 };
 
@@ -20,7 +20,7 @@ exports.addBook = async (req, res) => {
   const { pavadinimas, autorius, zanras_id, kopiju_kiekis } = req.body;
 
   if (!pavadinimas || !autorius || !zanras_id || !kopiju_kiekis) {
-    return res.status(400).json({ error: 'All fields are required' });
+    return res.status(400).json({ error: 'Visi laukai turi būti užpildyti' });
   }
 
   const query = 'INSERT INTO knyga (pavadinimas, autorius, zanras_id, kopiju_kiekis) VALUES (?, ?, ?, ?)';
@@ -33,9 +33,9 @@ exports.addBook = async (req, res) => {
     }
 
     await pool.query(query, values);
-    res.status(201).json({ message: 'Book added successfully' });
+    res.status(201).json({ message: 'Sėkmingai pridėta knyga' });
   } catch (error) {
-    console.error('Error adding book:', error);
-    res.status(500).json({ error: 'Database error' });
+    console.error('Klaida:', error);
+    res.status(500).json({ error: 'Duomenų bazės klaida' });
   }
 };

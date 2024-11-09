@@ -51,7 +51,7 @@ const Navbar = () => {
 
         {roleId === 4 && (
           <>
-            <li className="nav-item"><Link to="/librarian-management" className="nav-link">Pridėti knygininką</Link></li>
+            <li className="nav-item"><Link to="/librarian-management" className="nav-link">Pridėti bibliotekiniką</Link></li>
           </>
         )}
 

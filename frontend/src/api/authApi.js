@@ -7,7 +7,7 @@ export const registerUser = async (userData) => {
     const response = await axios.post(`${API_BASE_URL}/register`, userData);
     return response.data;
   } catch (error) {
-    console.error('Error registering user:', error);
+    console.error('Klaida registruojant:', error);
     throw error;
   }
 };
@@ -17,7 +17,7 @@ export const loginUser = async (credentials) => {
     const response = await axios.post(`${API_BASE_URL}/login`, credentials);
     return response.data;
   } catch (error) {
-    console.error('Error logging in:', error);
+    console.error('Klaida prisijungiant:', error);
     throw error;
   }
 };
