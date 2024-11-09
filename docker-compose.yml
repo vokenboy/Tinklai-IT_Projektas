@@ -9,7 +9,7 @@ services:
       MYSQL_USER: stud
       MYSQL_PASSWORD: stud
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - ./mysql-init:/docker-entrypoint-initdb.d
 
