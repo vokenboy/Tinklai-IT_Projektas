@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getBooks } from '../../api/booksApi';
 import { borrowBook } from '../../api/booksBorrowApi';
+import './form.css';
 
 const BookBorrowForm = () => {
   const [books, setBooks] = useState([]);
@@ -60,9 +61,9 @@ const BookBorrowForm = () => {
   };
 
   return (
-    <div>
-      {message && <p>{message}</p>}
-      <form onSubmit={handleSubmit}>
+    <div className="book-borrow-form-container">
+      {message && <p className="error-message">{message}</p>}
+      <form className="book-borrow-form" onSubmit={handleSubmit}>
         <table>
           <thead>
             <tr>
@@ -73,7 +74,7 @@ const BookBorrowForm = () => {
             </tr>
           </thead>
           <tbody>
-            {books.map(book => (
+            {books.map((book) => (
               <tr key={book.id}>
                 <td>
                   <input
@@ -89,7 +90,7 @@ const BookBorrowForm = () => {
             ))}
           </tbody>
         </table>
-        <button type="submit">Borrow Selected Books</button>
+        <button className="button" type="submit">Pasirinkti knygas</button>
       </form>
     </div>
   );

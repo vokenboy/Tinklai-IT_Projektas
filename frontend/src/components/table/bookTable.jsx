@@ -1,6 +1,6 @@
-// components/table/bookTable.jsx
 import React, { useState, useEffect } from 'react';
 import { getBooks } from '../../api/booksApi';
+import './table.css';
 
 const BookTable = () => {
   const [books, setBooks] = useState([]);
@@ -16,7 +16,7 @@ const BookTable = () => {
           genre: book.zanras,
           copies: book.kopiju_kiekis,
         }));
-        
+
         setBooks(formattedData);
       } catch (err) {
         console.error('Error fetching books:', err);
@@ -27,12 +27,12 @@ const BookTable = () => {
     fetchBooks();
   }, []);
 
-  const headers = ['Title', 'Author', 'Genre', 'Copies'];
+  const headers = ['Pavadinimas', 'Autorius', 'Žanras', 'Kopijų kiekis'];
 
   return (
-    <div>
+    <div className="book-table-container">
       {error && <p>{error}</p>}
-      <table>
+      <table className="book-table">
         <thead>
           <tr>
             {headers.map((header, index) => (

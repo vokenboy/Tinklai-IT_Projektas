@@ -1,0 +1,82 @@
+/* General Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+  align-items: center; /* Center all form elements horizontally */
+}
+
+input, select {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #0000ff;
+  color: #ffffff;
+  border: none;
+  width: 200px;
+  height: 50px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  align-self: center;
+}
+
+.book-borrow-form {
+  max-width: 600px;
+  margin: auto;
+}
+
+.book-borrow-form table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.book-borrow-form th, .book-borrow-form td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.book-borrow-form th {
+  background-color: #f4f4f4;
+}
+
+.book-post-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.librarian-register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: auto;
+}
+
+.user-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: auto;
+}
+
+.user-register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: auto;
+}

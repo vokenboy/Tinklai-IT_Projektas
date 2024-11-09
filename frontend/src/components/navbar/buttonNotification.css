@@ -1,0 +1,16 @@
+/* buttonNavbar.css */
+
+.button-not {
+    background-color: #b2be43;
+    color: #ffffff;
+    border: none;
+    width: 100px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+  }
+  

@@ -30,7 +30,7 @@ exports.addLibrarian = async (req, res) => {
   
   exports.getLibrarians = async (req, res) => {
     const query = `
-      SELECT naudotojas.id, naudotojas.vardas, naudotojas.pavarde, role.role_name
+      SELECT naudotojas.id, naudotojas.vardas, naudotojas.pavarde,  naudotojas.epastas, role.role_name
       FROM naudotojas
       JOIN role ON naudotojas.role_id = role.id
       WHERE role.role_name = 'Bibliotekininkas'

@@ -1,7 +1,11 @@
+// Navbar.jsx
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { signOut } from '../../auth';
 import NotificationModal from '../modal/notificationModal';
+import ButtonSignout from './buttonSignout';
+import ButtonNotification from './buttonNotification';
 import './navbar.css';
 
 const Navbar = () => {
@@ -23,37 +27,37 @@ const Navbar = () => {
   return (
     <nav>
       <ul className="nav-list">
-        <li className="nav-item"><Link to="/" className="nav-link">Home</Link></li>
+        <li className="nav-item"><Link to="/" className="nav-link">Pagrindinis</Link></li>
 
         {roleId === 1 && (
           <>
-            <li className="nav-item"><Link to="/register" className="nav-link">Register</Link></li>
-            <li className="nav-item"><Link to="/login" className="nav-link">Login</Link></li>
+            <li className="nav-item"><Link to="/register" className="nav-link">Registruotis</Link></li>
+            <li className="nav-item"><Link to="/login" className="nav-link">Prisijungti</Link></li>
           </>
         )}
 
         {roleId === 2 && (
           <>
-            <li className="nav-item"><Link to="/book-borrow" className="nav-link">Lend Book</Link></li>
-            <button onClick={handleShowNotification} className="nav-link-button">Notifications</button>
+            <li className="nav-item"><Link to="/book-borrow" className="nav-link">Knygos</Link></li>
+            <ButtonNotification onClick={handleShowNotification} label="Pranešimai" />
           </>
         )}
 
         {roleId === 3 && (
           <>
-            <li className="nav-item"><Link to="/book-management" className="nav-link">Book Management</Link></li>
+            <li className="nav-item"><Link to="/book-management" className="nav-link">Knygų redagavimas</Link></li>
           </>
         )}
 
         {roleId === 4 && (
           <>
-            <li className="nav-item"><Link to="/librarian-management" className="nav-link">Add Librarian</Link></li>
+            <li className="nav-item"><Link to="/librarian-management" className="nav-link">Pridėti knygininką</Link></li>
           </>
         )}
 
         {roleId !== 1 && (
           <li className="nav-item">
-            <button onClick={handleSignOut}>Sign Out</button>
+            <ButtonSignout onClick={handleSignOut} label="Atsijungti" />
           </li>
         )}
       </ul>
