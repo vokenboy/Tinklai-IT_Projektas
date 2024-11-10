@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2024 at 11:50 AM
+-- Generation Time: Nov 10, 2024 at 08:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -59,8 +59,7 @@ INSERT INTO `knyga` (`id`, `pavadinimas`, `autorius`, `zanras_id`, `kopiju_kieki
 (37, 'The Science of Interstellar', 'Kip Thorne', 7, 4),
 (38, 'Fairy Tales', 'Hans Christian Andersen', 9, 10),
 (39, 'The Book of Fairy Poetry', 'Cicely Mary Barker', 9, 2),
-(40, 'The Chronicles of Narnia', 'C.S. Lewis', 2, 5),
-(43, 'a', 'a', 1, 4);
+(40, 'The Chronicles of Narnia', 'C.S. Lewis', 2, 5);
 
 -- --------------------------------------------------------
 
@@ -85,8 +84,7 @@ INSERT INTO `naudotojas` (`id`, `vardas`, `pavarde`, `role_id`, `epastas`, `slap
 (17, 'Vilius', 'Tamašauskas', 2, 'viliustam36@gmail.com', '$2b$10$xIsX21lFjH8brqEXX6nX7enay5RLNRNj1Hdl7UBGBGAF6RG7.5tGW'),
 (18, 'admin', 'admin', 4, 'admin@admin.com', '$2b$10$GigQH2hAgn0Lmj7/0MXG3eDQVAsB5BzWpBZjTT551PlOwBL/l5rWq'),
 (19, 'Simas', 'Jankunas', 3, 'viliustam53@gmail.com', '$2b$10$nugqjE.X/9lhBgwRMxYImuZVEDIQVMMLARPdKiz4P2cT2zS7GfFem'),
-(22, 'Simas', 'Loxas', 2, 'viliustam@gmail.com', '$2b$10$z/6JFd8l4.n5dQNuU.kTrexekoETPlkskBh9Wka6gqahcFWsibprG'),
-(23, 'Lol', 'DidelisLol', 3, 'pideras@gmail.com', '$2b$10$3/4bhSStvhoNxKLXL0ImrusaLUqOTyfviWEGlBoXB82Ngw/P2xLOu');
+(24, 'Povilas', 'Povilaitis', 3, 'knyg@knyg.lt', '$2b$10$IGFlSG6reZ5ZjrOiUUWO7urmI07kG8oYDuEd2JmD/dBcnH.47nRjS');
 
 -- --------------------------------------------------------
 
@@ -99,19 +97,15 @@ CREATE TABLE `paskolinta_knyga` (
   `knyga_id` int(11) DEFAULT NULL,
   `naudotojas_id` int(11) DEFAULT NULL,
   `data_nuo` date DEFAULT NULL,
-  `data_iki` date DEFAULT NULL,
-  `grazinta` tinyint(1) DEFAULT 0
+  `data_iki` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `paskolinta_knyga`
 --
 
-INSERT INTO `paskolinta_knyga` (`id`, `knyga_id`, `naudotojas_id`, `data_nuo`, `data_iki`, `grazinta`) VALUES
-(1, 43, 17, '2024-11-05', '2024-11-12', 0),
-(2, 21, 17, '2024-11-05', '2024-11-12', 0),
-(3, 22, 22, '2024-11-05', '2024-11-12', 0),
-(4, 25, 22, '2024-11-05', '2024-11-12', 0);
+INSERT INTO `paskolinta_knyga` (`id`, `knyga_id`, `naudotojas_id`, `data_nuo`, `data_iki`) VALUES
+(10, 21, 17, '2024-11-10', '2024-11-17');
 
 -- --------------------------------------------------------
 
@@ -233,13 +227,13 @@ ALTER TABLE `knyga`
 -- AUTO_INCREMENT for table `naudotojas`
 --
 ALTER TABLE `naudotojas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `paskolinta_knyga`
 --
 ALTER TABLE `paskolinta_knyga`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pranesimas`

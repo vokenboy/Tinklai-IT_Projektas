@@ -1,0 +1,8 @@
+docker build -t vokenboy/backend -f Dockerfile .
+docker build -t vokenboy/frontend -f Dockerfile .
+docker build -t vokenboy/mysql -f Dockerfile .
+
+
+docker push vokenboy/mysql:latest
+docker push vokenboy/frontend:latest
+docker push vokenboy/backend:latest
