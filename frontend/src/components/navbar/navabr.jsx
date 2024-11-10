@@ -67,7 +67,7 @@ const Navbar = () => {
       <NotificationModal
         show={isModalOpen}
         onClose={handleCloseNotification}
-        message="This is your notification message!"
+        message="Gražinimo terminas baigiasi po 3 dienų"
       />
     </nav>
   );

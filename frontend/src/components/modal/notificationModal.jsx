@@ -7,9 +7,9 @@ const NotificationModal = ({ show, onClose, message }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h3>Notification</h3>
+        <h3>Pranešimai</h3>
         <p>{message}</p>
-        <button onClick={onClose}>Close</button>
+        <button onClick={onClose}>Uždaryti</button>
       </div>
     </div>
   );
