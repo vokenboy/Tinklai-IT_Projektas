@@ -19,8 +19,8 @@ exports.borrowBook = async (req, res) => {
       }
 
       await pool.execute(
-          'INSERT INTO paskolinta_knyga (knyga_id, naudotojas_id, data_nuo, data_iki, grazinta) VALUES (?, ?, ?, ?, ?)',
-          [knyga_id, naudotojas_id, data_nuo, data_iki, false]
+          'INSERT INTO paskolinta_knyga (knyga_id, naudotojas_id, data_nuo, data_iki) VALUES (?, ?, ?, ?)',
+          [knyga_id, naudotojas_id, data_nuo, data_iki]
       );
 
       await pool.execute('UPDATE knyga SET kopiju_kiekis = kopiju_kiekis - 1 WHERE id = ?', [knyga_id]);
@@ -45,7 +45,7 @@ exports.getBorrowDates = (req, res) => {
 
 exports.getBorrowedBooks = async (req, res) => {
     const query = `
-      SELECT paskolinta_knyga.id, knyga.pavadinimas, naudotojas.vardas, naudotojas.pavarde, paskolinta_knyga.data_nuo, paskolinta_knyga.data_iki, paskolinta_knyga.grazinta
+      SELECT paskolinta_knyga.id, knyga.pavadinimas, naudotojas.vardas, naudotojas.pavarde, paskolinta_knyga.data_nuo, paskolinta_knyga.data_iki
       FROM paskolinta_knyga
       JOIN knyga ON paskolinta_knyga.knyga_id = knyga.id
       JOIN naudotojas ON paskolinta_knyga.naudotojas_id = naudotojas.id

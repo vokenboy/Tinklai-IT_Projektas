@@ -53,10 +53,10 @@ const BookBorrowForm = () => {
 
     try {
       await borrowBook(borrowRequests);
-      setMessage('Books borrowed successfully!');
+      setMessage('Pasiskolinta sekmingai');
       setSelectedBooks([]);
     } catch (error) {
-      setMessage('Borrowing failed');
+      setMessage('Nepavyko pasirinkti');
     }
   };
 

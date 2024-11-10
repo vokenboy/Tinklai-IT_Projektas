@@ -9,7 +9,12 @@ const BooksBorrowedTable = () => {
     const fetchBorrowedBooks = async () => {
       try {
         const data = await getBooksBorrowed();
-        setBorrowedBooks(data);
+        const formattedData = data.map((book) => ({
+          ...book,
+          data_nuo: new Date(book.data_nuo).toLocaleDateString('lt-LT'),
+          data_iki: new Date(book.data_iki).toLocaleDateString('lt-LT'),
+        }));
+        setBorrowedBooks(formattedData);
       } catch (error) {
         console.error('Error fetching borrowed books:', error);
         setError('Failed to load borrowed books');
@@ -28,7 +33,7 @@ const BooksBorrowedTable = () => {
     }
   };
 
-  const headers = ['ID', 'Pavadinimas', 'Vardas', 'Pavardė', 'Data Nuo', 'Data Iki', 'Grazinta', 'Funkcijos'];
+  const headers = ['Pavadinimas', 'Vardas', 'Pavardė', 'Data Nuo', 'Data Iki', 'Funkcijos'];
 
   return (
     <div className="books-borrowed-table-container">
@@ -44,13 +49,11 @@ const BooksBorrowedTable = () => {
         <tbody>
           {borrowedBooks.map((book) => (
             <tr key={book.id}>
-              <td>{book.id}</td>
               <td>{book.pavadinimas}</td>
               <td>{book.vardas}</td>
               <td>{book.pavarde}</td>
               <td>{book.data_nuo}</td>
               <td>{book.data_iki}</td>
-              <td>{book.grazinta ? 'Taip' : 'Ne'}</td>
               <td>
                 <button onClick={() => handleDeleteClick(book.id)}>Grąžino knygą</button>
               </td>
