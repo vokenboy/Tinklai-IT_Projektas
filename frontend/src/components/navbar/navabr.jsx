@@ -46,6 +46,7 @@ const Navbar = () => {
         {roleId === 3 && (
           <>
             <li className="nav-item"><Link to="/book-management" className="nav-link">Knygų redagavimas</Link></li>
+            <li className="nav-item"><Link to="/book-borrow-page" className="nav-link">Paskolintos knygos</Link></li>
           </>
         )}
 

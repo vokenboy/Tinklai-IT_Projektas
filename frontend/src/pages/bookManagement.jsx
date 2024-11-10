@@ -1,4 +1,4 @@
-import BookTable from '../components/table/bookTable';
+import BookEditTable from '../components/table/bookEditTable';
 import BookPostForm from '../components/form/bookPostForm';
 
 const BookManagement = () => {
@@ -6,7 +6,7 @@ const BookManagement = () => {
   return (
     <div>
       <BookPostForm />
-      <BookTable />
+      <BookEditTable />
     </div>
   );
 };

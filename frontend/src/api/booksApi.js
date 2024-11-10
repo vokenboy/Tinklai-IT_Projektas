@@ -30,3 +30,23 @@ export const addBook = async (newBook) => {
     throw error;
   }
 };
+
+export const editBook = async (book) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/books/editBook`, book);
+    return response.data;
+  } catch (error) {
+    console.error('Error editing book:', error);
+    throw error;
+  }
+};
+
+export const deleteBook = async (id) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/books/deleteBook/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting book:', error);
+    throw error;
+  }
+};

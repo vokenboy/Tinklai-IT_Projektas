@@ -15,3 +15,23 @@ export const borrowBook = async (borrowRequests) => {
     throw error;
   }
 };
+
+export const getBooksBorrowed = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/borrowedBooks/getBorrowedBooks`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching borrowed books:', error);
+    throw error;
+  }
+};
+
+export const deleteBorrowedBook = async (id) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/borrowedBooks/deleteBorrowedBook/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting borrowed book:', error);
+    throw error;
+  }
+};
