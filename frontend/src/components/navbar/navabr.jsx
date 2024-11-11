@@ -1,12 +1,11 @@
-// Navbar.jsx
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { signOut } from '../../auth';
 import NotificationModal from '../modal/notificationModal';
-import ButtonSignout from './buttonSignout';
-import ButtonNotification from './buttonNotification';
-import './navbar.css';
+import { AppBar, Toolbar, Typography, Button, Box, IconButton } from '@mui/material';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const Navbar = () => {
   const roleId = parseInt(localStorage.getItem('role_id'), 10);
@@ -25,51 +24,69 @@ const Navbar = () => {
   };
 
   return (
-    <nav>
-      <ul className="nav-list">
-        <li className="nav-item"><Link to="/" className="nav-link">Pagrindinis</Link></li>
+    <AppBar position="static" sx={{ bgcolor: '#2f2c32' }}>
+      <Toolbar>
+        <IconButton color="inherit" component={Link} to="/" sx={{ mr: 2 }}>
+          <MenuBookIcon />
+        </IconButton>
+        <Typography variant="h6" component={Link} to="/" color="inherit" sx={{ textDecoration: 'none', flexGrow: 1 }}>
+          Biblioteka
+        </Typography>
 
-        {roleId === 1 && (
-          <>
-            <li className="nav-item"><Link to="/register" className="nav-link">Registruotis</Link></li>
-            <li className="nav-item"><Link to="/login" className="nav-link">Prisijungti</Link></li>
-          </>
-        )}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          {roleId === 1 && (
+            <>
+              <Button color="inherit" component={Link} to="/register">
+                Registruotis
+              </Button>
+              <Button color="inherit" component={Link} to="/login">
+                Prisijungti
+              </Button>
+            </>
+          )}
 
-        {roleId === 2 && (
-          <>
-            <li className="nav-item"><Link to="/book-borrow" className="nav-link">Knygos</Link></li>
-            <ButtonNotification onClick={handleShowNotification} label="Pranešimai" />
-          </>
-        )}
+          {roleId === 2 && (
+            <>
+              <Button color="inherit" component={Link} to="/book-borrow">
+                Knygos
+              </Button>
+              <IconButton color="inherit" onClick={handleShowNotification}>
+                <NotificationsIcon />
+              </IconButton>
+            </>
+          )}
 
-        {roleId === 3 && (
-          <>
-            <li className="nav-item"><Link to="/book-management" className="nav-link">Knygų redagavimas</Link></li>
-            <li className="nav-item"><Link to="/book-borrow-page" className="nav-link">Paskolintos knygos</Link></li>
-          </>
-        )}
+          {roleId === 3 && (
+            <>
+              <Button color="inherit" component={Link} to="/book-management">
+                Knygų redagavimas
+              </Button>
+              <Button color="inherit" component={Link} to="/book-borrow-page">
+                Paskolintos knygos
+              </Button>
+            </>
+          )}
 
-        {roleId === 4 && (
-          <>
-            <li className="nav-item"><Link to="/librarian-management" className="nav-link">Pridėti bibliotekiniką</Link></li>
-          </>
-        )}
+          {roleId === 4 && (
+            <Button color="inherit" component={Link} to="/librarian-management">
+              Pridėti bibliotekiniką
+            </Button>
+          )}
 
-        {roleId !== 1 && (
-          <li className="nav-item">
-            <ButtonSignout onClick={handleSignOut} label="Atsijungti" />
-          </li>
-        )}
-      </ul>
+          {roleId !== 1 && (
+            <IconButton color="inherit" onClick={handleSignOut}>
+              <ExitToAppIcon />
+            </IconButton>
+          )}
+        </Box>
+      </Toolbar>
 
-      {/* Notification Modal */}
       <NotificationModal
         show={isModalOpen}
         onClose={handleCloseNotification}
         message="Gražinimo terminas baigiasi po 3 dienų"
       />
-    </nav>
+    </AppBar>
   );
 };
 

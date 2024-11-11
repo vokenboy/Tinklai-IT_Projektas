@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { getBooks } from '../../api/booksApi';
-import './table.css';
+import {
+  Table,
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper,
+  Typography,
+  Box,
+  Alert,
+} from '@mui/material';
 
 const BookTable = () => {
   const [books, setBooks] = useState([]);
@@ -30,28 +41,41 @@ const BookTable = () => {
   const headers = ['Pavadinimas', 'Autorius', 'Žanras', 'Kopijų kiekis'];
 
   return (
-    <div className="book-table-container">
-      {error && <p>{error}</p>}
-      <table className="book-table">
-        <thead>
-          <tr>
-            {headers.map((header, index) => (
-              <th key={index}>{header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {books.map((book, index) => (
-            <tr key={index}>
-              <td>{book.title}</td>
-              <td>{book.author}</td>
-              <td>{book.genre}</td>
-              <td>{book.copies}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ maxWidth: 1200, width: '100%' }}>
+        <Typography variant="h5" component="h1" sx={{ mb: 3 }}>
+          Knygų Lentelė
+        </Typography>
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+        <TableContainer component={Paper} sx={{ boxShadow: 3 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {headers.map((header, index) => (
+                  <TableCell key={index} sx={{ fontWeight: 'bold' }}>
+                    {header}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {books.map((book, index) => (
+                <TableRow key={index}>
+                  <TableCell>{book.title}</TableCell>
+                  <TableCell>{book.author}</TableCell>
+                  <TableCell>{book.genre}</TableCell>
+                  <TableCell>{book.copies}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+    </Box>
   );
 };
 

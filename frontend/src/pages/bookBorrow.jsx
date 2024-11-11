@@ -1,12 +1,12 @@
 // bookBorrow.jsx
 
 import React from 'react';
-import BookBorrowForm from '../components/form/bookBorrowForm';
+import BookBorrowTable from '../components/table/bookBorrowTable';
 
 const BookBorrowPage = () => {
   return (
     <div>
-      <BookBorrowForm />
+      <BookBorrowTable />
     </div>
   );
 };
