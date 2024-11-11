@@ -1,12 +1,25 @@
 import React, { useState } from 'react';
 import { addBook } from '../../api/booksApi';
-import './form.css';
+import {
+  Container,
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  Button,
+  Typography,
+  Box,
+  Alert,
+} from '@mui/material';
 
-const BookPostForm = ({ onBookAdded }) => {
+const BookPostForm = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [genreId, setGenreId] = useState('');
   const [copies, setCopies] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   const genreOptions = [
     { id: 1, name: 'Drama' },
@@ -23,6 +36,8 @@ const BookPostForm = ({ onBookAdded }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage('');
+    setError('');
 
     const newBook = {
       pavadinimas: title,
@@ -32,62 +47,92 @@ const BookPostForm = ({ onBookAdded }) => {
     };
 
     try {
-      await addBook(newBook);
-      alert('Knyga pridėta sėkmingai');
-      onBookAdded();
-      setTitle('');
-      setAuthor('');
-      setGenreId('');
-      setCopies('');
+      const response = await addBook(newBook);
+      setMessage(response.message);
+      window.location.reload();
     } catch (error) {
-      alert(error.response?.data?.error || 'Nepavyko pridėti knygos');
+      setError(error.response?.data?.error || 'Nepavyko pridėti knygos');
     }
   };
 
   return (
-    <form className="book-post-form" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <input
-          type="text"
-          value={title}
-          placeholder="Pavadinimas"
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <input
-          type="text"
-          value={author}
-          placeholder="Autorius"
-          onChange={(e) => setAuthor(e.target.value)}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <select
-          value={genreId}
-          placeholder="Žanras"
-          onChange={(e) => setGenreId(e.target.value)}
-          required
-        >
-          <option value="" disabled>Pasirinkti žanrą</option>
-          {genreOptions.map((genre) => (
-            <option key={genre.id} value={genre.id}>{genre.name}</option>
-          ))}
-        </select>
-      </div>
-      <div className="form-group">
-        <input
-          type="number"
-          value={copies}
-          placeholder="Kopijų kiekis"
-          onChange={(e) => setCopies(e.target.value)}
-          required
-        />
-      </div>
-      <button className="button" type="submit">Pridėti knygą</button>
-    </form>
+    <Container maxWidth="sm">
+      <Box
+        sx={{
+          mt: 4,
+          p: 3,
+          borderRadius: 1,
+          boxShadow: 3,
+          bgcolor: 'background.paper',
+        }}
+      >
+        <Typography variant="h5" component="h1" gutterBottom>
+          Pridėti Knygą
+        </Typography>
+        {message && (
+          <Alert severity="success" sx={{ mb: 2 }}>
+            {message}
+          </Alert>
+        )}
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+        <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            label="Pavadinimas"
+            variant="outlined"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            fullWidth
+            label="Autorius"
+            variant="outlined"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            required
+            sx={{ mb: 2 }}
+          />
+          <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
+            <InputLabel id="genre-label">Žanras</InputLabel>
+            <Select
+              labelId="genre-label"
+              value={genreId}
+              onChange={(e) => setGenreId(e.target.value)}
+              label="Žanras"
+              required
+            >
+              <MenuItem value="" disabled>
+                Pasirinkti žanrą
+              </MenuItem>
+              {genreOptions.map((genre) => (
+                <MenuItem key={genre.id} value={genre.id}>
+                  {genre.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            fullWidth
+            label="Kopijų kiekis"
+            variant="outlined"
+            type="number"
+            value={copies}
+            onChange={(e) => setCopies(e.target.value)}
+            required
+            sx={{ mb: 3 }}
+          />
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            Pridėti knygą
+          </Button>
+        </form>
+      </Box>
+    </Container>
   );
 };
 

@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { registerUser } from '../../api/authApi';
-import './form.css';
+import {
+  Container,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Alert
+} from '@mui/material';
 
 const UserRegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -29,44 +36,77 @@ const UserRegisterForm = () => {
   };
 
   return (
-    <div className="user-register-form-container">
-      {message && <p className="error-message">{message}</p>}
-      <form className="user-register-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="epastas"
-          placeholder="El. Paštas"
-          value={formData.epastas}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="slaptazodis"
-          placeholder="Slaptažodis"
-          value={formData.slaptazodis}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="vardas"
-          placeholder="Vardas"
-          value={formData.vardas}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="pavarde"
-          placeholder="Pavardė"
-          value={formData.pavarde}
-          onChange={handleChange}
-          required
-        />
-        <button className="button" type="submit">Registruotis</button>
-      </form>
-    </div>
+    <Container maxWidth="sm">
+      <Box
+        sx={{
+          mt: 4,
+          p: 3,
+          borderRadius: 1,
+          boxShadow: 3,
+          bgcolor: 'background.paper'
+        }}
+      >
+        <Typography variant="h5" component="h1" gutterBottom>
+          Registracija
+        </Typography>
+        {message && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {message}
+          </Alert>
+        )}
+        <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            label="El. Paštas"
+            variant="outlined"
+            name="epastas"
+            value={formData.epastas}
+            onChange={handleChange}
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            fullWidth
+            label="Slaptažodis"
+            variant="outlined"
+            type="password"
+            name="slaptazodis"
+            value={formData.slaptazodis}
+            onChange={handleChange}
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            fullWidth
+            label="Vardas"
+            variant="outlined"
+            name="vardas"
+            value={formData.vardas}
+            onChange={handleChange}
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            fullWidth
+            label="Pavardė"
+            variant="outlined"
+            name="pavarde"
+            value={formData.pavarde}
+            onChange={handleChange}
+            required
+            sx={{ mb: 3 }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+          >
+            Registruotis
+          </Button>
+        </form>
+      </Box>
+    </Container>
   );
 };
 

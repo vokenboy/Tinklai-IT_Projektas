@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { getBooks, deleteBook } from '../../api/booksApi';
 import BookEditModal from '../modal/bookEditModal';
-import EditButton from '../button/editButton';
-import DeleteButton from '../button/deleteButton';
-import './table.css';
+import {
+  Table,
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper,
+  Typography,
+  Box,
+  Alert,
+  Button
+} from '@mui/material';
 
 const BookTable = () => {
   const [books, setBooks] = useState([]);
@@ -21,7 +31,6 @@ const BookTable = () => {
         genre: book.zanras,
         copies: book.kopiju_kiekis,
       }));
-
       setBooks(formattedData);
     } catch (err) {
       console.error('Error fetching books:', err);
@@ -50,7 +59,7 @@ const BookTable = () => {
   const handleDeleteClick = async (id) => {
     try {
       await deleteBook(id);
-      fetchBooks(); // Refresh the book list after deletion
+      fetchBooks();
     } catch (error) {
       console.error('Error deleting book:', error);
     }
@@ -59,42 +68,70 @@ const BookTable = () => {
   const headers = ['Pavadinimas', 'Autorius', 'Žanras', 'Kopijų kiekis', 'Funkcijos'];
 
   return (
-    <div className="book-table-container">
-      {error && <p>{error}</p>}
-      <table className="book-table">
-        <thead>
-          <tr>
-            {headers.map((header, index) => (
-              <th key={index}>{header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {books.map((book) => (
-            <tr key={book.id}>
-              <td>{book.title}</td>
-              <td>{book.author}</td>
-              <td>{book.genre}</td>
-              <td>{book.copies}</td>
-              <td>
-                <div className="button-container">
-                  <EditButton onClick={() => handleEditClick(book)} />
-                  <DeleteButton onClick={() => handleDeleteClick(book.id) } />
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ maxWidth: 1500, width: '100%' }}>
+        <Typography variant="h5" component="h1" sx={{ mb: 3 }}>
+          Knygų Lentelė
+        </Typography>
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+        <TableContainer component={Paper} sx={{ boxShadow: 3 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {headers.map((header, index) => (
+                  <TableCell key={index} sx={{ fontWeight: 'bold' }}>
+                    {header}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {books.map((book) => (
+                <TableRow key={book.id}>
+                  <TableCell>{book.title}</TableCell>
+                  <TableCell>{book.author}</TableCell>
+                  <TableCell>{book.genre}</TableCell>
+                  <TableCell>{book.copies}</TableCell>
+                  <TableCell
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Button
+                        variant="contained"
+                        sx={{ backgroundColor: '#1976d2', color: '#ffffff' }}
+                        onClick={() => handleEditClick(book)}>
+                        Redaguoti
+                      </Button>
+                      <Button
+                        variant="contained"
+                        sx={{ backgroundColor: '#d32f2f', color: '#ffffff' }}
+                        onClick={() => handleDeleteClick(book.id)}>
+                        Šalinti
+                      </Button>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-      {isModalOpen && (
-        <BookEditModal
-          book={selectedBook}
-          onClose={handleCloseModal}
-          onBookUpdated={handleBookUpdated}
-        />
-      )}
-    </div>
+        {isModalOpen && (
+          <BookEditModal
+            book={selectedBook}
+            onClose={handleCloseModal}
+            onBookUpdated={handleBookUpdated}
+          />
+        )}
+      </Box>
+    </Box>
   );
 };
 

@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
 import { editBook } from '../../api/booksApi';
+import {
+  Modal,
+  Box,
+  Typography,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button
+} from '@mui/material';
 
 const BookEditModal = ({ book, onClose, onBookUpdated }) => {
   const [title, setTitle] = useState(book.title);
@@ -39,53 +50,81 @@ const BookEditModal = ({ book, onClose, onBookUpdated }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>Redaguoti knygą</h2>
-        <div className="form-group">
-          <label>Pavadinimas:</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label>Autorius:</label>
-          <input
-            type="text"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label>Žanras:</label>
-          <select
+    <Modal
+      open={Boolean(book)}
+      onClose={onClose}
+      aria-labelledby="edit-book-modal"
+      aria-describedby="modal-to-edit-book-details"
+    >
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          p: 4,
+          borderRadius: 1,
+        }}
+      >
+        <Typography id="edit-book-modal" variant="h6" component="h2" gutterBottom>
+          Redaguoti knygą
+        </Typography>
+        <TextField
+          fullWidth
+          label="Pavadinimas"
+          variant="outlined"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          label="Autorius"
+          variant="outlined"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+          sx={{ mb: 2 }}
+        />
+        <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
+          <InputLabel id="genre-label">Žanras</InputLabel>
+          <Select
+            labelId="genre-label"
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
+            label="Žanras"
           >
-            <option value="" disabled>Pasirinkite žanrą</option>
+            <MenuItem value="" disabled>
+              Pasirinkite žanrą
+            </MenuItem>
             {genreOptions.map((option) => (
-              <option key={option.id} value={option.name}>
+              <MenuItem key={option.id} value={option.name}>
                 {option.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-        </div>
-        <div className="form-group">
-          <label>Kopijų kiekis:</label>
-          <input
-            type="number"
-            value={copies}
-            onChange={(e) => setCopies(e.target.value)}
-          />
-        </div>
-        <div className="modal-buttons">
-          <button onClick={handleSave}>Išsaugoti</button>
-          <button onClick={onClose}>Atšaukti</button>
-        </div>
-      </div>
-    </div>
+          </Select>
+        </FormControl>
+        <TextField
+          fullWidth
+          label="Kopijų kiekis"
+          variant="outlined"
+          type="number"
+          value={copies}
+          onChange={(e) => setCopies(e.target.value)}
+          sx={{ mb: 3 }}
+        />
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+          <Button variant="contained" color="primary" onClick={handleSave}>
+            Išsaugoti
+          </Button>
+          <Button variant="outlined" color="secondary" onClick={onClose}>
+            Atšaukti
+          </Button>
+        </Box>
+      </Box>
+    </Modal>
   );
 };
 
