@@ -1,44 +1,65 @@
 version: '3.8'
 
 services:
-  mysql:
-    image: vokenboy/mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: superstud
-      MYSQL_DATABASE: database
-      MYSQL_USER: stud
-      MYSQL_PASSWORD: stud
+  frontend:
+    build:
+      context: ./frontend                  # Path to your frontend folder
+      dockerfile: Dockerfile               # Dockerfile for React frontend
     ports:
-      - "3307:3306"
+      - "3000:3000"                            # Expose port 80 for the React app
     volumes:
-      - ./mysql-init:/docker-entrypoint-initdb.d
-
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    ports:
-      - "8080:80"
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
+      - ./frontend:/app                    # Sync local frontend code with the container
+      - /app/node_modules                  # Prevent overwriting node_modules
     depends_on:
-      - mysql
+      - backend                            # Ensure the backend starts first
+    environment:
+      CHOKIDAR_USEPOLLING: "true"          # Enable polling for hot-reloading
+      WATCHPACK_POLLING: "true" 
 
   backend:
-    image: vokenboy/backend:latest
+    build:
+      context: ./backend                   # Path to your backend folder
+      dockerfile: Dockerfile               # Dockerfile for Node.js backend
+    ports:
+      - "5000:5000"                        # Expose backend API on port 5000
+    volumes:
+      - ./backend:/app                     # Sync local backend code with the container
+      - /app/node_modules                  # Prevent overwriting node_modules
+    depends_on:
+      - mysql                              # Ensure the database starts first
     environment:
-      DB_HOST: mysql
-      DB_USER: stud
-      DB_PASSWORD: stud
-      DB_NAME: database
-    ports:
-      - "5000:5000"
-    depends_on:
-      - mysql
+      NODE_ENV: development                # Set environment variable for development
+      CHOKIDAR_USEPOLLING: "true"          # Enable polling for hot-reloading
+      DB_HOST: mysql                       # Use the MySQL service name
+      DB_PORT: 3306
+      DB_USER: stud                        # MySQL username
+      DB_PASSWORD: stud                    # MySQL password
+      DB_NAME: database                    # Database name
+    command: sh -c "npm install && npm rebuild bcrypt --build-from-source && npm run dev"
 
-  frontend:
-    image: vokenboy/frontend:latest
+  mysql:
+    image: mysql:5.7                      # Use MySQL version 5.7
     ports:
-      - "3000:80"
+      - "3306:3306"                       # Expose MySQL on port 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: superstud      # MySQL root password
+      MYSQL_DATABASE: database            # Initial database
+      MYSQL_USER: stud                    # Create a non-root user
+      MYSQL_PASSWORD: stud                # Set password for the non-root user
+    volumes:
+      - mysql_data:/var/lib/mysql         # Persist MySQL data
+      - ./mysql-init:/docker-entrypoint-initdb.d # Load custom initialization scripts
+
+  phpmyadmin:
+    image: phpmyadmin:latest              # Use the latest phpMyAdmin image
+    ports:
+      - "8080:80"                         # Expose phpMyAdmin on port 8080
     depends_on:
-      - backend
+      - mysql                             # Ensure MySQL starts first
+    environment:
+      PMA_HOST: mysql                     # Point phpMyAdmin to the MySQL service
+      PMA_USER: root                      # Use MySQL root user
+      PMA_PASSWORD: superstud             # Root password
+
+volumes:
+  mysql_data:

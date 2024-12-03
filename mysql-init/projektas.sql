@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2024 at 12:19 AM
+-- Generation Time: Dec 03, 2024 at 03:16 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,34 +32,34 @@ CREATE TABLE `knyga` (
   `pavadinimas` varchar(100) NOT NULL,
   `autorius` varchar(100) NOT NULL,
   `zanras_id` int(11) DEFAULT NULL,
-  `kopiju_kiekis` int(11) NOT NULL
+  `kopiju_kiekis` int(11) NOT NULL,
+  `isbn` varchar(13) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `knyga`
 --
 
-INSERT INTO `knyga` (`id`, `pavadinimas`, `autorius`, `zanras_id`, `kopiju_kiekis`) VALUES
-(21, 'The Great Gatsby', 'F. Scott Fitzgerald', 1, 4),
-(22, 'To Kill a Mockingbird', 'Harper Lee', 1, 2),
-(23, '1984', 'George Orwell', 3, 4),
-(24, 'The Catcher in the Rye', 'J.D. Salinger', 1, 2),
-(25, 'Moby Dick', 'Herman Melville', 1, 0),
-(26, 'The Da Vinci Code', 'Dan Brown', 4, 7),
-(27, 'Harry Potter and the Philosopher\'s Stone', 'J.K. Rowling', 2, 6),
-(28, 'The Hobbit', 'J.R.R. Tolkien', 2, 8),
-(29, 'The Lord of the Rings', 'J.R.R. Tolkien', 2, 3),
-(30, 'A Brief History of Time', 'Stephen Hawking', 7, 5),
-(31, 'The Theory of Everything', 'Stephen Hawking', 7, 4),
-(32, 'A Game of Thrones', 'George R.R. Martin', 3, 5),
-(33, 'The Shining', 'Stephen King', 5, 3),
-(34, 'Pride and Prejudice', 'Jane Austen', 1, 6),
-(35, 'War and Peace', 'Leo Tolstoy', 1, 2),
-(36, 'Anna Karenina', 'Leo Tolstoy', 1, 3),
-(37, 'The Science of Interstellar', 'Kip Thorne', 7, 4),
-(38, 'Fairy Tales', 'Hans Christian Andersen', 9, 10),
-(39, 'The Book of Fairy Poetry', 'Cicely Mary Barker', 9, 2),
-(40, 'The Chronicles of Narnia', 'C.S. Lewis', 2, 5);
+INSERT INTO `knyga` (`id`, `pavadinimas`, `autorius`, `zanras_id`, `kopiju_kiekis`, `isbn`) VALUES
+(21, 'The Great Gatsby', 'F. Scott Fitzgerald', 1, 7, '1234567891213'),
+(22, 'To Kill a Mockingbird', 'Harper Lee', 1, 2, '1233215642169'),
+(23, '1984', 'George Orwell', 3, 4, '1254153135469'),
+(24, 'The Catcher in the Rye', 'J.D. Salinger', 1, 2, '1254153135888'),
+(25, 'Moby Dick', 'Herman Melville', 1, 1, '6264193135469'),
+(26, 'The Da Vinci Code', 'Dan Brown', 4, 0, '9254153185469'),
+(27, 'Harry Potter and the Philosopher\'s Stone', 'J.K. Rowling', 2, 6, '7954153335469'),
+(28, 'The Hobbit', 'J.R.R. Tolkien', 2, 8, '1254153135469'),
+(29, 'The Lord of the Rings', 'J.R.R. Tolkien', 2, 3, '1254153135469'),
+(30, 'A Brief History of Time', 'Stephen Hawking', 7, 5, '1254153135469'),
+(31, 'The Theory of Everything', 'Stephen Hawking', 3, 4, '1254153135469'),
+(33, 'The Shining', 'Stephen King', 5, 3, '1254153135469'),
+(34, 'Pride and Prejudice', 'Jane Austen', 1, 6, '1254153135469'),
+(35, 'War and Peace', 'Leo Tolstoy', 1, 2, '1254153135469'),
+(36, 'Anna Karenina', 'Leo Tolstoy', 1, 3, '1254153135469'),
+(37, 'The Science of Interstellar', 'Kip Thorne', 7, 4, '1254153135469'),
+(38, 'Fairy Tales', 'Hans Christian Andersen', 5, 10, '1254153135469'),
+(39, 'The Book of Fairy Poetry', 'Cicely Mary Barker', 4, 2, '1254153135469'),
+(40, 'The Chronicles of Narnia', 'C.S. Lewis', 2, 5, '1254153135469');
 
 -- --------------------------------------------------------
 
@@ -84,7 +84,8 @@ INSERT INTO `naudotojas` (`id`, `vardas`, `pavarde`, `role_id`, `epastas`, `slap
 (17, 'Vilius', 'Tamašauskas', 2, 'viliustam36@gmail.com', '$2b$10$xIsX21lFjH8brqEXX6nX7enay5RLNRNj1Hdl7UBGBGAF6RG7.5tGW'),
 (18, 'admin', 'admin', 4, 'admin@admin.com', '$2b$10$GigQH2hAgn0Lmj7/0MXG3eDQVAsB5BzWpBZjTT551PlOwBL/l5rWq'),
 (19, 'Simas', 'Jankunas', 3, 'viliustam53@gmail.com', '$2b$10$nugqjE.X/9lhBgwRMxYImuZVEDIQVMMLARPdKiz4P2cT2zS7GfFem'),
-(24, 'Povilas', 'Povilaitis', 3, 'knyg@knyg.lt', '$2b$10$IGFlSG6reZ5ZjrOiUUWO7urmI07kG8oYDuEd2JmD/dBcnH.47nRjS');
+(24, 'Povilas', 'Povilaitis', 3, 'knyg@knyg.lt', '$2b$10$IGFlSG6reZ5ZjrOiUUWO7urmI07kG8oYDuEd2JmD/dBcnH.47nRjS'),
+(25, 'Vilius', 'Jankunas', 2, 'el', '$2b$10$S7sTRvOpSquUtrWUpUhtke3vUz24us2XZNIhGSvbzWO1WbzlqQStm');
 
 -- --------------------------------------------------------
 
@@ -105,7 +106,7 @@ CREATE TABLE `paskolinta_knyga` (
 --
 
 INSERT INTO `paskolinta_knyga` (`id`, `knyga_id`, `naudotojas_id`, `data_nuo`, `data_iki`) VALUES
-(10, 21, 17, '2024-11-10', '2024-11-17');
+(13, 25, 17, '2024-12-03', '2024-12-10');
 
 -- --------------------------------------------------------
 
@@ -221,19 +222,19 @@ ALTER TABLE `zanras`
 -- AUTO_INCREMENT for table `knyga`
 --
 ALTER TABLE `knyga`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `naudotojas`
 --
 ALTER TABLE `naudotojas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `paskolinta_knyga`
 --
 ALTER TABLE `paskolinta_knyga`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `pranesimas`
