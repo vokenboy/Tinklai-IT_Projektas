@@ -40,6 +40,11 @@ const BookPostForm = () => {
     setMessage('');
     setError('');
 
+    if (!/^\d{13}$/.test(isbn)) {
+      setError('ISBN turi būti 13 skaitmenų');
+      return;
+    }
+    
     const newBook = {
       pavadinimas: title,
       autorius: author,
