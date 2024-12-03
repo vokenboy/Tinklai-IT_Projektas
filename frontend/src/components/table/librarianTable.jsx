@@ -35,7 +35,7 @@ const LibrarianTable = () => {
     <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
       <Box sx={{ maxWidth: 800, width: '100%' }}>
         <Typography variant="h5" gutterBottom>
-          Knygininkų sąrašas
+          Bibliotekinikų sąrašas
         </Typography>
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>

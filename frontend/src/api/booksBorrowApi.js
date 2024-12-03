@@ -11,7 +11,7 @@ export const borrowBook = async (borrowRequests) => {
     );
     return responses;
   } catch (error) {
-    console.error('Error borrowing books:', error);
+    console.error('Klaida pasiskolinti knyga:', error);
     throw error;
   }
 };
@@ -21,7 +21,7 @@ export const getBooksBorrowed = async () => {
     const response = await axios.get(`${API_BASE_URL}/borrowedBooks/getBorrowedBooks`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching borrowed books:', error);
+    console.error('Klaida pasiskolinti knyga:', error);
     throw error;
   }
 };
@@ -31,7 +31,7 @@ export const deleteBorrowedBook = async (id) => {
     const response = await axios.delete(`${API_BASE_URL}/borrowedBooks/deleteBorrowedBook/${id}`);
     return response.data;
   } catch (error) {
-    console.error('Error deleting borrowed book:', error);
+    console.error('Klaida trinant paskolinta knyga:', error);
     throw error;
   }
 };
@@ -41,7 +41,7 @@ export const getExpiringBorrowedBooks = async (params) => {
     const response = await axios.get(`${API_BASE_URL}/borrowedBooks/expiring`, { params });
     return response.data;
   } catch (error) {
-    console.error('Error fetching expiring borrowed books:', error);
+    console.error('Klaida:', error);
     throw error;
   }
 };

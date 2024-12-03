@@ -12,8 +12,8 @@ const BookManagement = () => {
       const booksData = await getBooks();
       setBooks(booksData);
     } catch (err) {
-      console.error('Error fetching books:', err);
-      setError('Failed to load books');
+      console.error('Klaida gaunant knygas:', err);
+      setError('Klaida kraunant knygas');
     }
   };
 

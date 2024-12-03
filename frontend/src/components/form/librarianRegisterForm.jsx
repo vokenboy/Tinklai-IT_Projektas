@@ -47,7 +47,7 @@ const LibrarianRegisterForm = () => {
         }}
       >
         <Typography variant="h5" gutterBottom>
-          Pridėti Knygininką
+          Pridėti Bibliotekiniką
         </Typography>
         {message && (
           <Alert severity={message.includes('sekmingai') ? 'success' : 'error'} sx={{ mb: 2 }}>
@@ -97,7 +97,7 @@ const LibrarianRegisterForm = () => {
             sx={{ mb: 3 }}
           />
           <Button type="submit" variant="contained" color="primary" fullWidth>
-            Pridėti Knygininką
+          Pridėti Bibliotekiniką
           </Button>
         </form>
       </Box>

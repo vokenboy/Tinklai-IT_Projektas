@@ -7,7 +7,7 @@ export const getLibrarians = async () => {
     const response = await axios.get(`${API_BASE_URL}/getLibrarians`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching librarians:', error);
+    console.error('Klaida gaunant bibliotekinkus:', error);
     throw error;
   }
 };
@@ -17,7 +17,7 @@ export const getUserById = async (id) => {
     const response = await axios.get(`${API_BASE_URL}/getUser/${id}`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching user:', error);
+    console.error('Klaida gaunant naudotoja:', error);
     throw error;
   }
 };

@@ -4,14 +4,14 @@ exports.addLibrarian = async (req, res) => {
   const { vardas, pavarde } = req.body;
 
   if (!vardas || !pavarde) {
-    return res.status(400).json({ error: 'Name and surname are required' });
+    return res.status(400).json({ error: 'Vardas ir pavardė yra privaloma' });
   }
 
   try {
     const [roleResults] = await pool.query('SELECT id FROM role WHERE role_name = ?', ['Bibliotekininkas']);
     
     if (roleResults.length === 0) {
-      return res.status(404).json({ error: 'Role not found' });
+      return res.status(404).json({ error: 'Rolė nerasta' });
     }
 
     const roleId = roleResults[0].id;
@@ -21,10 +21,10 @@ exports.addLibrarian = async (req, res) => {
       [vardas, pavarde, roleId]
     );
 
-    res.status(201).json({ message: 'Librarian added successfully' });
+    res.status(201).json({ message: 'Bibliotekinikas pridėtas' });
   } catch (error) {
-    console.error('Error in addLibrarian:', error);
-    res.status(500).json({ error: 'Database error' });
+    console.error('Klaida pridedant bibliotekinika:', error);
+    res.status(500).json({ error: 'Duomenų bazės klaida' });
   }
 };
   
@@ -40,8 +40,8 @@ exports.addLibrarian = async (req, res) => {
       const [results] = await pool.query(query);
       res.json(results);
     } catch (error) {
-      console.error('Error fetching librarians:', error);
-      res.status(500).json({ error: 'Database error' });
+      console.error('Klaida pridedant bibliotekinika:', error);
+      res.status(500).json({ error: 'Duomenų bazės klaida' });
     }
   };
 
@@ -60,13 +60,13 @@ exports.addLibrarian = async (req, res) => {
       );
   
       if (results.length === 0) {
-        return res.status(404).json({ error: 'User not found' });
+        return res.status(404).json({ error: 'Naudotojas nerastas' });
       }
   
-      res.json(results[0]); // Return the user details
+      res.json(results[0]);
     } catch (error) {
-      console.error('Error fetching user:', error);
-      res.status(500).json({ error: 'Database error' });
+      console.error('Klaida gaunant naudotoja:', error);
+      res.status(500).json({ error: 'Duomenų bazės klaida' });
     }
   };
   

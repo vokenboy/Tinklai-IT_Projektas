@@ -3,63 +3,63 @@ version: '3'
 services:
   frontend:
     build:
-      context: ./frontend                  # Path to your frontend folder
-      dockerfile: Dockerfile               # Dockerfile for React frontend
+      context: ./frontend                  
+      dockerfile: Dockerfile              
     ports:
-      - "3000:3000"                            # Expose port 80 for the React app
+      - "3000:3000"                           
     volumes:
-      - ./frontend:/app                    # Sync local frontend code with the container
-      - /app/node_modules                  # Prevent overwriting node_modules
+      - ./frontend:/app                   
+      - /app/node_modules                  
     depends_on:
-      - backend                            # Ensure the backend starts first
+      - backend                            
     environment:
-      CHOKIDAR_USEPOLLING: "true"          # Enable polling for hot-reloading
+      CHOKIDAR_USEPOLLING: "true"          
       WATCHPACK_POLLING: "true" 
 
   backend:
     build:
-      context: ./backend                   # Path to your backend folder
-      dockerfile: Dockerfile               # Dockerfile for Node.js backend
+      context: ./backend                   
+      dockerfile: Dockerfile               
     ports:
-      - "5000:5000"                        # Expose backend API on port 5000
+      - "5000:5000"                        
     volumes:
-      - ./backend:/app                     # Sync local backend code with the container
-      - /app/node_modules                  # Prevent overwriting node_modules
+      - ./backend:/app                     
+      - /app/node_modules                  
     depends_on:
-      - mysql                              # Ensure the database starts first
+      - mysql                              
     environment:
-      NODE_ENV: development                # Set environment variable for development
-      CHOKIDAR_USEPOLLING: "true"          # Enable polling for hot-reloading
-      DB_HOST: mysql                       # Use the MySQL service name
+      NODE_ENV: development                
+      CHOKIDAR_USEPOLLING: "true"          
+      DB_HOST: mysql                       
       DB_PORT: 3306
-      DB_USER: stud                        # MySQL username
-      DB_PASSWORD: stud                    # MySQL password
-      DB_NAME: database                    # Database name
+      DB_USER: stud                        
+      DB_PASSWORD: stud                    
+      DB_NAME: database                    
     command: sh -c "npm install && npm rebuild bcrypt --build-from-source && npm run dev"
 
   mysql:
-    image: mysql:5.7                      # Use MySQL version 5.7
+    image: mysql:5.7                      
     ports:
-      - "3307:3307"                       # Expose MySQL on port 3306
+      - "3307:3307"                       
     environment:
-      MYSQL_ROOT_PASSWORD: superstud      # MySQL root password
-      MYSQL_DATABASE: database            # Initial database
-      MYSQL_USER: stud                    # Create a non-root user
-      MYSQL_PASSWORD: stud                # Set password for the non-root user
+      MYSQL_ROOT_PASSWORD: superstud      
+      MYSQL_DATABASE: database            
+      MYSQL_USER: stud                    
+      MYSQL_PASSWORD: stud                
     volumes:
-      - mysql_data:/var/lib/mysql         # Persist MySQL data
-      - ./mysql-init:/docker-entrypoint-initdb.d # Load custom initialization scripts
+      - mysql_data:/var/lib/mysql         
+      - ./mysql-init:/docker-entrypoint-initdb.d 
 
   phpmyadmin:
-    image: phpmyadmin:latest              # Use the latest phpMyAdmin image
+    image: phpmyadmin:latest              
     ports:
-      - "8080:80"                         # Expose phpMyAdmin on port 8080
+      - "8080:80"                         
     depends_on:
-      - mysql                             # Ensure MySQL starts first
+      - mysql                             
     environment:
-      PMA_HOST: mysql                     # Point phpMyAdmin to the MySQL service
-      PMA_USER: root                      # Use MySQL root user
-      PMA_PASSWORD: superstud             # Root password
+      PMA_HOST: mysql                     
+      PMA_USER: root                      
+      PMA_PASSWORD: superstud             
 
 volumes:
   mysql_data:
