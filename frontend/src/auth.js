@@ -36,7 +36,7 @@ export function setToken(token) {
   }
 
   export function signOut() {
-    localStorage.removeItem('token');       // Remove the token
-    localStorage.setItem('role_id', '1');   // Set role_id to 1 (guest role)
-    window.location.href = '/';             // Redirect to the homepage
+    localStorage.removeItem('token');
+    localStorage.setItem('role_id', '1');
+    window.location.href = '/';
   }

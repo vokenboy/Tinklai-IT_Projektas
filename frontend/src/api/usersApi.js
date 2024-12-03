@@ -11,3 +11,13 @@ export const getLibrarians = async () => {
     throw error;
   }
 };
+
+export const getUserById = async (id) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/getUser/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    throw error;
+  }
+};

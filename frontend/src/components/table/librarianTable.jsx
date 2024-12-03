@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { getLibrarians } from '../../api/usersApi';
-import './table.css';
+import {
+  Box,
+  Table,
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper,
+  Typography,
+  Alert,
+} from '@mui/material';
 
 const LibrarianTable = () => {
   const [librarians, setLibrarians] = useState([]);
@@ -21,32 +32,42 @@ const LibrarianTable = () => {
   }, []);
 
   return (
-    <div className="librarian-table-container">
-      <h3>Knygininkų sąrašas</h3>
-      {error && <p>{error}</p>}
-      {librarians.length > 0 ? (
-        <table className="librarian-table">
-          <thead>
-            <tr>
-              <th>Vardas</th>
-              <th>Pavardė</th>
-              <th>El. Paštas</th>
-            </tr>
-          </thead>
-          <tbody>
-            {librarians.map((librarian) => (
-              <tr key={librarian.id}>
-                <td>{librarian.vardas}</td>
-                <td>{librarian.pavarde}</td>
-                <td>{librarian.epastas}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>Nerasta bibliotekinikų</p>
-      )}
-    </div>
+    <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ maxWidth: 800, width: '100%' }}>
+        <Typography variant="h5" gutterBottom>
+          Knygininkų sąrašas
+        </Typography>
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+        {librarians.length > 0 ? (
+          <TableContainer component={Paper} sx={{ boxShadow: 3 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Vardas</TableCell>
+                  <TableCell>Pavardė</TableCell>
+                  <TableCell>El. Paštas</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {librarians.map((librarian) => (
+                  <TableRow key={librarian.id}>
+                    <TableCell>{librarian.vardas}</TableCell>
+                    <TableCell>{librarian.pavarde}</TableCell>
+                    <TableCell>{librarian.epastas}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <Typography variant="body1">Nerasta bibliotekinikų</Typography>
+        )}
+      </Box>
+    </Box>
   );
 };
 

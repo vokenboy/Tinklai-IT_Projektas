@@ -48,28 +48,32 @@ const BookBorrowForm = () => {
     const today = new Date();
     const nextWeek = new Date(today);
     nextWeek.setDate(today.getDate() + 7);
-
+  
     const data_nuo = today.toISOString().split('T')[0];
     const data_iki = nextWeek.toISOString().split('T')[0];
-
+  
     if (selectedBooks.length === 0) {
-      alert('Please select at least one book to borrow.');
+      alert('Pasirinkite bent vieną knygą.');
       return;
     }
-
+  
     const borrowRequests = selectedBooks.map((knyga_id) => ({
       knyga_id,
       naudotojas_id,
       data_nuo,
       data_iki,
     }));
-
+  
     try {
       await borrowBook(borrowRequests);
-      setMessage('Pasiskolinta sekmingai');
+      setMessage('Knygos sėkmingai pasiskolintos.');
       setSelectedBooks([]);
     } catch (error) {
-      setMessage('Nepavyko pasirinkti');
+      if (error.response?.status === 403) {
+        setMessage('Turite vėluojančių knygų. Grąžinkite jas prieš skolindamiesi naujas knygas.');
+      } else {
+        setMessage('Nepavyko pasiskolinti knygų.');
+      }
     }
   };
 

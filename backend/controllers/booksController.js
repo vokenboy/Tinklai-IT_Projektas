@@ -44,8 +44,12 @@ exports.addBook = async (req, res) => {
 exports.editBook = async (req, res) => {
   const { id, pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn } = req.body;
 
-  if (!id || !pavadinimas || !autorius || !zanras_id || !kopiju_kiekis) {
+  if (!id || !pavadinimas || !autorius || !zanras_id || !isbn) {
     return res.status(400).json({ error: 'Visi laukai turi būti užpildyti' });
+  }
+
+  if (!/^\d{13}$/.test(isbn)) {
+    return res.status(400).json({ error: 'ISBN numeris turi būti lygiai 13 skaitmenų' });
   }
 
   const query = `
@@ -53,9 +57,11 @@ exports.editBook = async (req, res) => {
     SET pavadinimas = ?, autorius = ?, zanras_id = ?, kopiju_kiekis = ?, isbn = ? 
     WHERE id = ?
   `;
-  const values = [pavadinimas, autorius, zanras_id, kopiju_kiekis, id, isbn];
+  const values = [pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn, id];
 
   try {
+    console.log('Executing Query:', query, values);
+
     const [result] = await pool.query(query, values);
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Knyga nerasta' });
@@ -67,6 +73,7 @@ exports.editBook = async (req, res) => {
     res.status(500).json({ error: 'Duomenų bazės klaida' });
   }
 };
+
 
 exports.deleteBook = async (req, res) => {
   const { id } = req.params;

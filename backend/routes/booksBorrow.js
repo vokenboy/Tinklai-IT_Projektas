@@ -6,5 +6,6 @@ router.post('/borrow', booksBorrowController.borrowBook);
 router.get('/getBorrowDates', booksBorrowController.getBorrowDates);
 router.get('/getBorrowedBooks', booksBorrowController.getBorrowedBooks);
 router.delete('/deleteBorrowedBook/:id', booksBorrowController.deleteBorrowedBook);
+router.get('/expiring', booksBorrowController.getExpiringBorrowedBooks);
 
 module.exports = router;

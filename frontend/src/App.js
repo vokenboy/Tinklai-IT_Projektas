@@ -8,6 +8,7 @@ import BookBorrow from './pages/bookBorrow';
 import BookBorrowedPage from './pages/bookBorrowedPage';
 import Register from './pages/register';
 import Login from './pages/login';
+import Profile from './pages/profile';
 import './App.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/book-management" element={<BookManagement />} />
           <Route path="/book-borrow" element={<BookBorrow />} />
           <Route path="/book-borrow-page" element={<BookBorrowedPage />} />
+          <Route path="/profile/:id" element={<Profile />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </div>

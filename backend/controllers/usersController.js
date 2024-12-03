@@ -44,3 +44,29 @@ exports.addLibrarian = async (req, res) => {
       res.status(500).json({ error: 'Database error' });
     }
   };
+
+  exports.getUserById = async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const [results] = await pool.query(
+        `
+        SELECT naudotojas.id, naudotojas.vardas AS name, naudotojas.pavarde AS surname, naudotojas.epastas AS email, role.role_name AS role
+        FROM naudotojas
+        JOIN role ON naudotojas.role_id = role.id
+        WHERE naudotojas.id = ?
+        `,
+        [id]
+      );
+  
+      if (results.length === 0) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      res.json(results[0]); // Return the user details
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      res.status(500).json({ error: 'Database error' });
+    }
+  };
+  

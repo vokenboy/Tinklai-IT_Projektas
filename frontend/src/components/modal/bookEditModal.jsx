@@ -17,6 +17,7 @@ const BookEditModal = ({ book, onClose, onBookUpdated }) => {
   const [author, setAuthor] = useState(book.author);
   const [genre, setGenre] = useState(book.genre);
   const [copies, setCopies] = useState(book.copies);
+  const [isbn, setIsbn] = useState(book.isbn);
 
   const genreOptions = [
     { id: 1, name: 'Drama' },
@@ -32,6 +33,11 @@ const BookEditModal = ({ book, onClose, onBookUpdated }) => {
   ];
 
   const handleSave = async () => {
+    if (!/^\d{13}$/.test(isbn)) {
+      alert('ISBN numeris turi būti lygiai 13 skaitmenų.');
+      return;
+    }
+    
     try {
       const updatedBook = {
         id: book.id,
@@ -39,13 +45,14 @@ const BookEditModal = ({ book, onClose, onBookUpdated }) => {
         autorius: author,
         zanras_id: genreOptions.find(option => option.name === genre)?.id,
         kopiju_kiekis: copies,
+        isbn: isbn
       };
       await editBook(updatedBook);
-      console.log('Book updated successfully:', updatedBook);
+      console.log('Knyga atnaujinta sėkmingai:', updatedBook);
       onBookUpdated();
       onClose();
     } catch (error) {
-      console.error('Error updating book:', error);
+      console.error('Klaida atnaujinant knygą:', error);
     }
   };
 
@@ -114,6 +121,14 @@ const BookEditModal = ({ book, onClose, onBookUpdated }) => {
           value={copies}
           onChange={(e) => setCopies(e.target.value)}
           sx={{ mb: 3 }}
+        />
+        <TextField
+          fullWidth
+          label="ISBN numeris"
+          variant="outlined"
+          value={isbn}
+          onChange={(e) => setIsbn(e.target.value)}
+          sx={{ mb: 2 }}
         />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
           <Button variant="contained" color="primary" onClick={handleSave}>

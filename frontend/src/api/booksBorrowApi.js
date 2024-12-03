@@ -35,3 +35,13 @@ export const deleteBorrowedBook = async (id) => {
     throw error;
   }
 };
+
+export const getExpiringBorrowedBooks = async (params) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/borrowedBooks/expiring`, { params });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching expiring borrowed books:', error);
+    throw error;
+  }
+};
