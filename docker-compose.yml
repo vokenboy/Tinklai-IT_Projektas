@@ -40,7 +40,7 @@ services:
   mysql:
     image: mysql:5.7                      # Use MySQL version 5.7
     ports:
-      - "3306:3306"                       # Expose MySQL on port 3306
+      - "3307:3307"                       # Expose MySQL on port 3306
     environment:
       MYSQL_ROOT_PASSWORD: superstud      # MySQL root password
       MYSQL_DATABASE: database            # Initial database
