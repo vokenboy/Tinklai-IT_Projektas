@@ -26,6 +26,7 @@ const BookTable = () => {
           author: book.autorius,
           genre: book.zanras,
           copies: book.kopiju_kiekis,
+          isbn: book.isbn
         }));
 
         setBooks(formattedData);
@@ -38,7 +39,7 @@ const BookTable = () => {
     fetchBooks();
   }, []);
 
-  const headers = ['Pavadinimas', 'Autorius', 'Žanras', 'Kopijų kiekis'];
+  const headers = ['Pavadinimas', 'Autorius', 'Žanras', 'Kopijų kiekis', 'ISBN numeris'];
 
   return (
     <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
@@ -69,6 +70,7 @@ const BookTable = () => {
                   <TableCell>{book.author}</TableCell>
                   <TableCell>{book.genre}</TableCell>
                   <TableCell>{book.copies}</TableCell>
+                  <TableCell>{book.isbn}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -1,30 +1,31 @@
 const pool = require('../db');
 
 exports.getBooks = async (req, res) => {
+  console.log('Fetching books...');
   const query = `
-    SELECT knyga.id, knyga.pavadinimas, knyga.autorius, zanras.zanras_name AS zanras, knyga.kopiju_kiekis
+    SELECT knyga.id, knyga.pavadinimas, knyga.autorius, zanras.zanras_name AS zanras, knyga.kopiju_kiekis, knyga.isbn
     FROM knyga
     LEFT JOIN zanras ON knyga.zanras_id = zanras.id
   `;
-
   try {
     const [results] = await pool.query(query);
     res.json(results);
   } catch (error) {
-    console.error('Nepavyko gauti knygų:', error);
     res.status(500).json({ error: 'Duomenų bazės klaida' });
   }
 };
 
 exports.addBook = async (req, res) => {
-  const { pavadinimas, autorius, zanras_id, kopiju_kiekis } = req.body;
+  console.log('Request Body:', req.body);
 
-  if (!pavadinimas || !autorius || !zanras_id || !kopiju_kiekis) {
+  const { pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn } = req.body;
+
+  if (!pavadinimas || !autorius || !zanras_id || !kopiju_kiekis || !isbn) {
     return res.status(400).json({ error: 'Visi laukai turi būti užpildyti' });
   }
 
-  const query = 'INSERT INTO knyga (pavadinimas, autorius, zanras_id, kopiju_kiekis) VALUES (?, ?, ?, ?)';
-  const values = [pavadinimas, autorius, zanras_id, kopiju_kiekis];
+  const query = 'INSERT INTO knyga (pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn) VALUES (?, ?, ?, ?, ?)';
+  const values = [pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn];
 
   try {
     const [zanrasCheck] = await pool.query('SELECT id FROM zanras WHERE id = ?', [zanras_id]);
@@ -41,7 +42,7 @@ exports.addBook = async (req, res) => {
 };
 
 exports.editBook = async (req, res) => {
-  const { id, pavadinimas, autorius, zanras_id, kopiju_kiekis } = req.body;
+  const { id, pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn } = req.body;
 
   if (!id || !pavadinimas || !autorius || !zanras_id || !kopiju_kiekis) {
     return res.status(400).json({ error: 'Visi laukai turi būti užpildyti' });
@@ -49,10 +50,10 @@ exports.editBook = async (req, res) => {
 
   const query = `
     UPDATE knyga 
-    SET pavadinimas = ?, autorius = ?, zanras_id = ?, kopiju_kiekis = ? 
+    SET pavadinimas = ?, autorius = ?, zanras_id = ?, kopiju_kiekis = ?, isbn = ? 
     WHERE id = ?
   `;
-  const values = [pavadinimas, autorius, zanras_id, kopiju_kiekis, id];
+  const values = [pavadinimas, autorius, zanras_id, kopiju_kiekis, id, isbn];
 
   try {
     const [result] = await pool.query(query, values);

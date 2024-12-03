@@ -18,6 +18,7 @@ const BookPostForm = () => {
   const [author, setAuthor] = useState('');
   const [genreId, setGenreId] = useState('');
   const [copies, setCopies] = useState('');
+  const [isbn, setIsbn] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
@@ -44,6 +45,7 @@ const BookPostForm = () => {
       autorius: author,
       zanras_id: Number(genreId),
       kopiju_kiekis: Number(copies),
+      isbn: Number(isbn),
     };
 
     try {
@@ -124,6 +126,16 @@ const BookPostForm = () => {
             type="number"
             value={copies}
             onChange={(e) => setCopies(e.target.value)}
+            required
+            sx={{ mb: 3 }}
+          />
+          <TextField
+            fullWidth
+            label="ISBN numeris"
+            variant="outlined"
+            type="number"
+            value={isbn}
+            onChange={(e) => setIsbn(e.target.value)}
             required
             sx={{ mb: 3 }}
           />
