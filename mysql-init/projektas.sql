@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2024 at 03:16 PM
+-- Generation Time: Dec 04, 2024 at 01:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,33 +33,34 @@ CREATE TABLE `knyga` (
   `autorius` varchar(100) NOT NULL,
   `zanras_id` int(11) DEFAULT NULL,
   `kopiju_kiekis` int(11) NOT NULL,
-  `isbn` varchar(13) NOT NULL
+  `isbn` varchar(13) NOT NULL,
+  `data` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `knyga`
 --
 
-INSERT INTO `knyga` (`id`, `pavadinimas`, `autorius`, `zanras_id`, `kopiju_kiekis`, `isbn`) VALUES
-(21, 'The Great Gatsby', 'F. Scott Fitzgerald', 1, 7, '1234567891213'),
-(22, 'To Kill a Mockingbird', 'Harper Lee', 1, 2, '1233215642169'),
-(23, '1984', 'George Orwell', 3, 4, '1254153135469'),
-(24, 'The Catcher in the Rye', 'J.D. Salinger', 1, 2, '1254153135888'),
-(25, 'Moby Dick', 'Herman Melville', 1, 1, '6264193135469'),
-(26, 'The Da Vinci Code', 'Dan Brown', 4, 0, '9254153185469'),
-(27, 'Harry Potter and the Philosopher\'s Stone', 'J.K. Rowling', 2, 6, '7954153335469'),
-(28, 'The Hobbit', 'J.R.R. Tolkien', 2, 8, '1254153135469'),
-(29, 'The Lord of the Rings', 'J.R.R. Tolkien', 2, 3, '1254153135469'),
-(30, 'A Brief History of Time', 'Stephen Hawking', 7, 5, '1254153135469'),
-(31, 'The Theory of Everything', 'Stephen Hawking', 3, 4, '1254153135469'),
-(33, 'The Shining', 'Stephen King', 5, 3, '1254153135469'),
-(34, 'Pride and Prejudice', 'Jane Austen', 1, 6, '1254153135469'),
-(35, 'War and Peace', 'Leo Tolstoy', 1, 2, '1254153135469'),
-(36, 'Anna Karenina', 'Leo Tolstoy', 1, 3, '1254153135469'),
-(37, 'The Science of Interstellar', 'Kip Thorne', 7, 4, '1254153135469'),
-(38, 'Fairy Tales', 'Hans Christian Andersen', 5, 10, '1254153135469'),
-(39, 'The Book of Fairy Poetry', 'Cicely Mary Barker', 4, 2, '1254153135469'),
-(40, 'The Chronicles of Narnia', 'C.S. Lewis', 2, 5, '1254153135469');
+INSERT INTO `knyga` (`id`, `pavadinimas`, `autorius`, `zanras_id`, `kopiju_kiekis`, `isbn`, `data`) VALUES
+(21, 'The Great Gatsby', 'F. Scott Fitzgerald', 1, 6, '1234567891213', '2012-02-04'),
+(22, 'To Kill a Mockingbird', 'Harper Lee', 1, 2, '1233215642169', '1986-02-11'),
+(23, '1984', 'George Orwell', 3, 4, '1254153135469', NULL),
+(24, 'The Catcher in the Rye', 'J.D. Salinger', 1, 2, '1254153135888', NULL),
+(25, 'Moby Dick', 'Herman Melville', 1, 1, '6264193135469', NULL),
+(26, 'The Da Vinci Code', 'Dan Brown', 4, 0, '9254153185469', NULL),
+(27, 'Harry Potter and the Philosopher\'s Stone', 'J.K. Rowling', 2, 6, '7954153335469', NULL),
+(28, 'The Hobbit', 'J.R.R. Tolkien', 2, 8, '1254153135469', NULL),
+(29, 'The Lord of the Rings', 'J.R.R. Tolkien', 2, 3, '1254153135469', NULL),
+(30, 'A Brief History of Time', 'Stephen Hawking', 7, 5, '1254153135469', NULL),
+(31, 'The Theory of Everything', 'Stephen Hawking', 3, 4, '1254153135469', NULL),
+(33, 'The Shining', 'Stephen King', 5, 3, '1254153135469', NULL),
+(34, 'Pride and Prejudice', 'Jane Austen', 1, 6, '1254153135469', NULL),
+(35, 'War and Peace', 'Leo Tolstoy', 1, 2, '1254153135469', NULL),
+(36, 'Anna Karenina', 'Leo Tolstoy', 1, 3, '1254153135469', NULL),
+(37, 'The Science of Interstellar', 'Kip Thorne', 7, 4, '1254153135469', NULL),
+(38, 'Fairy Tales', 'Hans Christian Andersen', 5, 10, '1254153135469', NULL),
+(39, 'The Book of Fairy Poetry', 'Cicely Mary Barker', 4, 2, '1254153135469', NULL),
+(40, 'The Chronicles of Narnia', 'C.S. Lewis', 2, 5, '1254153135469', NULL);
 
 -- --------------------------------------------------------
 
@@ -106,7 +107,8 @@ CREATE TABLE `paskolinta_knyga` (
 --
 
 INSERT INTO `paskolinta_knyga` (`id`, `knyga_id`, `naudotojas_id`, `data_nuo`, `data_iki`) VALUES
-(13, 25, 17, '2024-12-03', '2024-12-10');
+(13, 25, 17, '2024-12-03', '2024-12-10'),
+(14, 21, 17, '2024-12-04', '2024-12-05');
 
 -- --------------------------------------------------------
 
@@ -234,7 +236,7 @@ ALTER TABLE `naudotojas`
 -- AUTO_INCREMENT for table `paskolinta_knyga`
 --
 ALTER TABLE `paskolinta_knyga`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `pranesimas`
