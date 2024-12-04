@@ -9,7 +9,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Button
+  Button,
 } from '@mui/material';
 
 const BookEditModal = ({ book, onClose, onBookUpdated }) => {
@@ -18,6 +18,7 @@ const BookEditModal = ({ book, onClose, onBookUpdated }) => {
   const [genre, setGenre] = useState(book.genre);
   const [copies, setCopies] = useState(book.copies);
   const [isbn, setIsbn] = useState(book.isbn);
+  const [releaseDate, setReleaseDate] = useState(book.data); // Added state for release date
 
   const genreOptions = [
     { id: 1, name: 'Drama' },
@@ -37,15 +38,21 @@ const BookEditModal = ({ book, onClose, onBookUpdated }) => {
       alert('ISBN numeris turi būti lygiai 13 skaitmenų.');
       return;
     }
-    
+
+    if (!releaseDate) {
+      alert('Išleidimo data yra privaloma.');
+      return;
+    }
+
     try {
       const updatedBook = {
         id: book.id,
         pavadinimas: title,
         autorius: author,
-        zanras_id: genreOptions.find(option => option.name === genre)?.id,
+        zanras_id: genreOptions.find((option) => option.name === genre)?.id,
         kopiju_kiekis: copies,
-        isbn: isbn
+        isbn: isbn,
+        data: releaseDate, // Include release date in the updated book object
       };
       await editBook(updatedBook);
       console.log('Knyga atnaujinta sėkmingai:', updatedBook);
@@ -129,6 +136,18 @@ const BookEditModal = ({ book, onClose, onBookUpdated }) => {
           value={isbn}
           onChange={(e) => setIsbn(e.target.value)}
           sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          label="Išleidimo data"
+          variant="outlined"
+          type="date" // Use date input type for release date
+          value={releaseDate}
+          onChange={(e) => setReleaseDate(e.target.value)}
+          sx={{ mb: 3 }}
+          InputLabelProps={{
+            shrink: true, // Ensures the label remains above the input
+          }}
         />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
           <Button variant="contained" color="primary" onClick={handleSave}>

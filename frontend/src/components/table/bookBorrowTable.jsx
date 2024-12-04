@@ -14,12 +14,14 @@ import {
   Button,
   Typography,
   Alert,
+  TableSortLabel,
 } from '@mui/material';
 
 const BookBorrowForm = () => {
   const [books, setBooks] = useState([]);
   const [selectedBooks, setSelectedBooks] = useState([]);
   const [message, setMessage] = useState('');
+  const [sortConfig, setSortConfig] = useState({ key: 'pavadinimas', direction: 'asc' });
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -42,28 +44,41 @@ const BookBorrowForm = () => {
     );
   };
 
+  const handleSort = (key) => {
+    const isAsc = sortConfig.key === key && sortConfig.direction === 'asc';
+    setSortConfig({ key, direction: isAsc ? 'desc' : 'asc' });
+
+    const sortedBooks = [...books].sort((a, b) => {
+      if (a[key] < b[key]) return isAsc ? -1 : 1;
+      if (a[key] > b[key]) return isAsc ? 1 : -1;
+      return 0;
+    });
+
+    setBooks(sortedBooks);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const naudotojas_id = localStorage.getItem('user_id');
     const today = new Date();
     const nextWeek = new Date(today);
     nextWeek.setDate(today.getDate() + 7);
-  
+
     const data_nuo = today.toISOString().split('T')[0];
     const data_iki = nextWeek.toISOString().split('T')[0];
-  
+
     if (selectedBooks.length === 0) {
       alert('Pasirinkite bent vieną knygą.');
       return;
     }
-  
+
     const borrowRequests = selectedBooks.map((knyga_id) => ({
       knyga_id,
       naudotojas_id,
       data_nuo,
       data_iki,
     }));
-  
+
     try {
       await borrowBook(borrowRequests);
       setMessage('Knygos sėkmingai pasiskolintos.');
@@ -76,6 +91,12 @@ const BookBorrowForm = () => {
       }
     }
   };
+
+  const headers = [
+    { key: 'pavadinimas', label: 'Pavadinimas' },
+    { key: 'autorius', label: 'Autorius' },
+    { key: 'kopiju_kiekis', label: 'Kopijų kiekis' },
+  ];
 
   return (
     <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
@@ -93,9 +114,17 @@ const BookBorrowForm = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Pasirinkti</TableCell>
-                <TableCell>Pavadinimas</TableCell>
-                <TableCell>Autorius</TableCell>
-                <TableCell>Kopijų kiekis</TableCell>
+                {headers.map((header) => (
+                  <TableCell key={header.key}>
+                    <TableSortLabel
+                      active={sortConfig.key === header.key}
+                      direction={sortConfig.key === header.key ? sortConfig.direction : 'asc'}
+                      onClick={() => handleSort(header.key)}
+                    >
+                      {header.label}
+                    </TableSortLabel>
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -116,13 +145,13 @@ const BookBorrowForm = () => {
           </Table>
         </TableContainer>
         <Button
-            variant="contained"
-            onClick={handleSubmit}
-            color="primary"
-            fullWidth
-          >
-            Pasirinkti knygas
-          </Button>
+          variant="contained"
+          onClick={handleSubmit}
+          color="primary"
+          fullWidth
+        >
+          Pasirinkti knygas
+        </Button>
       </Box>
     </Box>
   );

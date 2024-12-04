@@ -17,6 +17,12 @@ const BookTable = () => {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
 
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Extracts YYYY-MM-DD
+  };
+
   useEffect(() => {
     const fetchBooks = async () => {
       try {
@@ -26,7 +32,8 @@ const BookTable = () => {
           author: book.autorius,
           genre: book.zanras,
           copies: book.kopiju_kiekis,
-          isbn: book.isbn
+          isbn: book.isbn,
+          data: formatDate(book.data), // Format release date
         }));
 
         setBooks(formattedData);
@@ -39,7 +46,7 @@ const BookTable = () => {
     fetchBooks();
   }, []);
 
-  const headers = ['Pavadinimas', 'Autorius', 'Žanras', 'Kopijų kiekis', 'ISBN numeris'];
+  const headers = ['Pavadinimas', 'Autorius', 'Žanras', 'Kopijų kiekis', 'ISBN numeris', 'Išleidimo data'];
 
   return (
     <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
@@ -71,6 +78,7 @@ const BookTable = () => {
                   <TableCell>{book.genre}</TableCell>
                   <TableCell>{book.copies}</TableCell>
                   <TableCell>{book.isbn}</TableCell>
+                  <TableCell>{book.data}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

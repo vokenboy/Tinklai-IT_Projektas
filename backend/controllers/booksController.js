@@ -3,7 +3,7 @@ const pool = require('../db');
 exports.getBooks = async (req, res) => {
   console.log('Fetching books...');
   const query = `
-    SELECT knyga.id, knyga.pavadinimas, knyga.autorius, zanras.zanras_name AS zanras, knyga.kopiju_kiekis, knyga.isbn
+    SELECT knyga.id, knyga.pavadinimas, knyga.autorius, zanras.zanras_name AS zanras, knyga.kopiju_kiekis, knyga.isbn, knyga.data
     FROM knyga
     LEFT JOIN zanras ON knyga.zanras_id = zanras.id
   `;
@@ -18,14 +18,17 @@ exports.getBooks = async (req, res) => {
 exports.addBook = async (req, res) => {
   console.log('Request Body:', req.body);
 
-  const { pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn } = req.body;
+  const { pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn, data } = req.body;
 
-  if (!pavadinimas || !autorius || !zanras_id || !kopiju_kiekis || !isbn) {
+  if (!pavadinimas || !autorius || !zanras_id || !kopiju_kiekis || !isbn || !data) {
     return res.status(400).json({ error: 'Visi laukai turi būti užpildyti' });
   }
 
-  const query = 'INSERT INTO knyga (pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn) VALUES (?, ?, ?, ?, ?)';
-  const values = [pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn];
+  const query = `
+    INSERT INTO knyga (pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn, data) 
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
+  const values = [pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn, data];
 
   try {
     const [zanrasCheck] = await pool.query('SELECT id FROM zanras WHERE id = ?', [zanras_id]);
@@ -41,10 +44,11 @@ exports.addBook = async (req, res) => {
   }
 };
 
-exports.editBook = async (req, res) => {
-  const { id, pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn } = req.body;
 
-  if (!id || !pavadinimas || !autorius || !zanras_id || !isbn) {
+exports.editBook = async (req, res) => {
+  const { id, pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn, data } = req.body;
+
+  if (!id || !pavadinimas || !autorius || !zanras_id || !isbn || !data) {
     return res.status(400).json({ error: 'Visi laukai turi būti užpildyti' });
   }
 
@@ -54,10 +58,10 @@ exports.editBook = async (req, res) => {
 
   const query = `
     UPDATE knyga 
-    SET pavadinimas = ?, autorius = ?, zanras_id = ?, kopiju_kiekis = ?, isbn = ? 
+    SET pavadinimas = ?, autorius = ?, zanras_id = ?, kopiju_kiekis = ?, isbn = ?, data = ? 
     WHERE id = ?
   `;
-  const values = [pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn, id];
+  const values = [pavadinimas, autorius, zanras_id, kopiju_kiekis, isbn, data, id];
 
   try {
     console.log('Executing Query:', query, values);

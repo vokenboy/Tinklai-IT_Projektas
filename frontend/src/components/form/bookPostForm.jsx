@@ -19,6 +19,7 @@ const BookPostForm = () => {
   const [genreId, setGenreId] = useState('');
   const [copies, setCopies] = useState('');
   const [isbn, setIsbn] = useState('');
+  const [releaseDate, setReleaseDate] = useState(''); // New state for release date
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
@@ -44,13 +45,19 @@ const BookPostForm = () => {
       setError('ISBN turi būti 13 skaitmenų');
       return;
     }
-    
+
+    if (!releaseDate) {
+      setError('Išleidimo data yra privaloma');
+      return;
+    }
+
     const newBook = {
       pavadinimas: title,
       autorius: author,
       zanras_id: Number(genreId),
       kopiju_kiekis: Number(copies),
       isbn: Number(isbn),
+      data: releaseDate, // Include release date in the object
     };
 
     try {
@@ -143,6 +150,19 @@ const BookPostForm = () => {
             onChange={(e) => setIsbn(e.target.value)}
             required
             sx={{ mb: 3 }}
+          />
+          <TextField
+            fullWidth
+            label="Išleidimo data"
+            variant="outlined"
+            type="date" // Use date input type
+            value={releaseDate}
+            onChange={(e) => setReleaseDate(e.target.value)}
+            required
+            sx={{ mb: 3 }}
+            InputLabelProps={{
+              shrink: true, // Ensures label stays above the input
+            }}
           />
           <Button type="submit" variant="contained" color="primary" fullWidth>
             Pridėti knygą

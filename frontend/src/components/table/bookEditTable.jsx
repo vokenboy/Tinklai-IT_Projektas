@@ -12,7 +12,8 @@ import {
   Typography,
   Box,
   Alert,
-  Button
+  Button,
+  TableSortLabel,
 } from '@mui/material';
 
 const BookTable = () => {
@@ -20,6 +21,13 @@ const BookTable = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: 'title', direction: 'asc' });
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Extracts YYYY-MM-DD
+  };
 
   const fetchBooks = async () => {
     try {
@@ -30,7 +38,8 @@ const BookTable = () => {
         author: book.autorius,
         genre: book.zanras,
         copies: book.kopiju_kiekis,
-        isbn: book.isbn
+        isbn: book.isbn,
+        data: formatDate(book.data), // Format release date
       }));
       setBooks(formattedData);
     } catch (err) {
@@ -42,6 +51,19 @@ const BookTable = () => {
   useEffect(() => {
     fetchBooks();
   }, []);
+
+  const handleSort = (key) => {
+    const isAsc = sortConfig.key === key && sortConfig.direction === 'asc';
+    setSortConfig({ key, direction: isAsc ? 'desc' : 'asc' });
+
+    const sortedBooks = [...books].sort((a, b) => {
+      if (a[key] < b[key]) return isAsc ? -1 : 1;
+      if (a[key] > b[key]) return isAsc ? 1 : -1;
+      return 0;
+    });
+
+    setBooks(sortedBooks);
+  };
 
   const handleEditClick = (book) => {
     setSelectedBook(book);
@@ -66,7 +88,15 @@ const BookTable = () => {
     }
   };
 
-  const headers = ['Pavadinimas', 'Autorius', 'Žanras', 'Kopijų kiekis', 'ISBN numeris', 'Funkcijos'];
+  const headers = [
+    { key: 'title', label: 'Pavadinimas' },
+    { key: 'author', label: 'Autorius' },
+    { key: 'genre', label: 'Žanras' },
+    { key: 'copies', label: 'Kopijų kiekis' },
+    { key: 'isbn', label: 'ISBN numeris' },
+    { key: 'data', label: 'Išleidimo data' },
+    { key: 'functions', label: 'Funkcijos', sortable: false },
+  ];
 
   return (
     <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
@@ -83,9 +113,19 @@ const BookTable = () => {
           <Table>
             <TableHead>
               <TableRow>
-                {headers.map((header, index) => (
-                  <TableCell key={index} sx={{ fontWeight: 'bold' }}>
-                    {header}
+                {headers.map((header) => (
+                  <TableCell key={header.key} sx={{ fontWeight: 'bold' }}>
+                    {header.sortable !== false ? (
+                      <TableSortLabel
+                        active={sortConfig.key === header.key}
+                        direction={sortConfig.key === header.key ? sortConfig.direction : 'asc'}
+                        onClick={() => handleSort(header.key)}
+                      >
+                        {header.label}
+                      </TableSortLabel>
+                    ) : (
+                      header.label
+                    )}
                   </TableCell>
                 ))}
               </TableRow>
@@ -98,23 +138,27 @@ const BookTable = () => {
                   <TableCell>{book.genre}</TableCell>
                   <TableCell>{book.copies}</TableCell>
                   <TableCell>{book.isbn}</TableCell>
+                  <TableCell>{book.data}</TableCell> {/* Formatted release date */}
                   <TableCell
                     sx={{
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
-                    }}>
+                    }}
+                  >
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Button
                         variant="contained"
                         sx={{ backgroundColor: '#1976d2', color: '#ffffff' }}
-                        onClick={() => handleEditClick(book)}>
+                        onClick={() => handleEditClick(book)}
+                      >
                         Redaguoti
                       </Button>
                       <Button
                         variant="contained"
                         sx={{ backgroundColor: '#d32f2f', color: '#ffffff' }}
-                        onClick={() => handleDeleteClick(book.id)}>
+                        onClick={() => handleDeleteClick(book.id)}
+                      >
                         Šalinti
                       </Button>
                     </Box>
